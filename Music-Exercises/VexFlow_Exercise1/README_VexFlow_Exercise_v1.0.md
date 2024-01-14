@@ -1,7 +1,7 @@
 
-# Access Music Exercises Here: [Music Exercises](https://robert-z-lehr.github.io/Music-Education/)
 
-### Explanation:
+# Access Music Exercises Here: [Music Exercises](https://robert-z-lehr.github.io/Music-Education/)
+### Details:
 
 1. **HTML Structure**: This includes the main title, subtitle, buttons for each category, and a container (`<div id="exercisesContainer">`) where the exercises will be displayed.
 
