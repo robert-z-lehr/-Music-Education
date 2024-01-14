@@ -1,0 +1,27 @@
+.container {
+    text-align: center;
+}
+
+.buttons button {
+    margin: 5px;
+    padding: 10px;
+}
+
+#exercisesContainer {
+    margin-top: 20px;
+}
+
+.question {
+    margin: 20px 0;
+}
+
+.submitButton {
+    background-color: lightgrey;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.submitButton.clicked {
+    background-color: green;
+}
