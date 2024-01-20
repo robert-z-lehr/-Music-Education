@@ -39,15 +39,15 @@ function renderVexFlowNotation(category) {
     }).addClef('treble').addTimeSignature('4/4');
   } else if (category === 'chords') {
     system.addStave({
-      voices: [score.voice(score.notes('C#5/q, B4, A4, G#4'))]
+      voices: [score.voice(score.notes('C5/h, C#5/q, D5/q'))]
     }).addClef('treble').addTimeSignature('4/4');
   } else if (category === 'rhythms') {
     system.addStave({
-      voices: [score.voice(score.notes('C#5/q, B4, A4, G#4'))]
+      voices: [score.voice(score.notes('C5/h, C5/hr'))]
     }).addClef('treble').addTimeSignature('4/4');
   } else if (category === 'articulation') {
     system.addStave({
-      voices: [score.voice(score.notes('C#5/q, B4, A4, G#4'))]
+      voices: [score.voice(score.notes('C6/q, C5/q, C5/hr'))]
     }).addClef('treble').addTimeSignature('4/4');
   }
 

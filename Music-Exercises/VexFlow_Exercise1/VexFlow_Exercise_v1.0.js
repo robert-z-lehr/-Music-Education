@@ -39,7 +39,7 @@ function renderVexFlowNotation(category) {
     }).addClef('treble').addTimeSignature('4/4');
   } else if (category === 'chords') {
     system.addStave({
-      voices: [score.voice(score.notes('C#5/q, B4, A4, G#4'))]
+      voices: [score.voice(score.notes('C5/q, C#5, D5/h'))]
     }).addClef('treble').addTimeSignature('4/4');
   } else if (category === 'rhythms') {
     system.addStave({
