@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Define the button for notes problems
-  // const notesButton = document.getElementById('notesButton');
-  const newButton = document.getElementById('NewChallengeButton');
+  
+  const newButton = document.getElementById('newChallengeButton');
+  const notesButton = document.getElementById('notesButton');
 
   // Define an array of 12 music notes problems as examples
   let musicProblems = [
@@ -13,18 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let remainingProblems = [...musicProblems];
 
-  // notesButton.addEventListener('click', () => {
-  //   if (remainingProblems.length > 0) {
-  //     let randomProblemIndex = Math.floor(Math.random() * remainingProblems.length);
-  //     let selectedProblem = remainingProblems[randomProblemIndex];
-  //     remainingProblems.splice(randomProblemIndex, 1);
+  notesButton.addEventListener('click', () => {
+    if (remainingProblems.length > 0) {
+      let randomProblemIndex = Math.floor(Math.random() * remainingProblems.length);
+      let selectedProblem = remainingProblems[randomProblemIndex];
+      remainingProblems.splice(randomProblemIndex, 1);
 
-  //     renderVexFlowNotation(selectedProblem);
-  //   } else {
-  //     notesButton.textContent = "Complete!";
-  //     notesButton.disabled = true;
-  //   }
-  // });
+      renderVexFlowNotation(selectedProblem);
+    } else {
+      notesButton.textContent = "Complete!";
+      notesButton.disabled = true;
+    }
+  });
 
   newButton.addEventListener('click', () => {
     if (remainingProblems.length > 0) {

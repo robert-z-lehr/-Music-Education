@@ -1,27 +1,37 @@
 .container {
-    text-align: center;
+    text-align: left;
+    padding: 20px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 300px; /* Adjust this value to control the maximum width of the buttons */
+}
+
+#NewChallengeButton {
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
 }
 
 .buttons button {
-    margin: 5px;
-    padding: 10px;
-}
-
-#exercisesContainer {
-    margin-top: 20px;
-}
-
-.question {
-    margin: 20px 0;
-}
-
-.submitButton {
-    background-color: lightgrey;
-    padding: 5px 10px;
-    border: none;
+    margin: 10px 0;
+    padding: 10px 20px; /* Adjust padding to control the size of the buttons */
+    font-size: 1em; /* Adjust font size for smaller text */
+    border: 2px solid #007bff;
     border-radius: 5px;
+    background-color: #ffffff;
+    color: #007bff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.submitButton.clicked {
-    background-color: green;
+.buttons button:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+#output {
+    margin-top: 30px;
 }
