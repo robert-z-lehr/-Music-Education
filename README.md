@@ -1,5 +1,10 @@
 # Access Music Exercises [Here](https://robert-z-lehr.github.io/Music-Education/)
 ---
+### Source for Code:
+- [VexFlow](https://www.vexflow.com/)
+- [EasyScore](https://github.com/0xfe/vexflow/wiki/Using-EasyScore)
+- [VexWarp](https://github.com/0xfe/vexwarp)
+- 
 ### Purpose of Code Files:
 
 1. **HTML Structure**: This includes the main title, subtitle, buttons for each category, and a container (`<div id="exercisesContainer">`) where the exercises will be displayed.
