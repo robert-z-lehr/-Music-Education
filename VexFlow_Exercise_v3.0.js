@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const EarTraining = document.getElementById('EarTrainingButton');
   const newChallengeButton = document.getElementById('NewChallengeButton');
   const categoryButtons = document.querySelectorAll('.buttons button');
-  let currentCategory = null;
 
-  // Define an array of music problems for each category
-  let musicProblems = {
+  let currentCategory = null;
+  let currentProblemContainer = null; // Variable to hold the current problem container
+  let musicProblems = { // Define an array of music problems for each category
     notes: [
       'Cb4/w', 'C4/w', 'C#4/w', 'Db4/w', 'D4/w', 'D#4/w', 'Eb4/w', 'E4/w', 'E#4/w', 'Fb4/w', 'F4/w', 'F#4/w',
       'Gb4/w', 'G4/w', 'G#4/w', 'Ab4/w', 'A4/w', 'A#4/w', 'Bb4/w', 'B4/w', 'B#4/w'
@@ -87,8 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
              ]/*,*/
     // Define similar arrays for other categories
   };
-
   let remainingProblems = {};
+
   Object.keys(musicProblems).forEach(category => {
     remainingProblems[category] = [...musicProblems[category]];
   });
@@ -116,58 +116,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-  let currentProblemContainer = null; // Variable to hold the current problem container
+  // let currentProblemContainer = null; // Variable to hold the current problem container
 
-//   newChallengeButton.addEventListener('click', () => {
-//     if (currentCategory && remainingProblems[currentCategory].length > 0) {
-//         let randomProblemIndex = Math.floor(Math.random() * remainingProblems[currentCategory].length);
-//         let selectedProblem = remainingProblems[currentCategory][randomProblemIndex];
-//         remainingProblems[currentCategory].splice(randomProblemIndex, 1);
+  newChallengeButton.addEventListener('click', () => {
+    if (currentCategory && remainingProblems[currentCategory].length > 0) {
+        let randomProblemIndex = Math.floor(Math.random() * remainingProblems[currentCategory].length);
+        let selectedProblem = remainingProblems[currentCategory][randomProblemIndex];
+        remainingProblems[currentCategory].splice(randomProblemIndex, 1);
 
-//         // Capture the returned problemContainer from renderVexFlowNotation
-//         const problemContainer = renderVexFlowNotation(selectedProblem);
+        // Capture the problemContainer returned by renderVexFlowNotation
+        currentProblemContainer = renderVexFlowNotation(selectedProblem);
 
-//         if (remainingProblems[currentCategory].length === 0) {
-//             newChallengeButton.style.backgroundColor = 'gold';
-//             newChallengeButton.style.color = 'grey';
-//             resetProblemsAndCreateTryAgainButton();
-//         }
+        if (remainingProblems[currentCategory].length === 0) {
+            // Your existing code for handling the empty problem set
+        }
+    } else {
+      // No more problems left in the current category
+      newChallengeButton.style.backgroundColor = '#ffd700'; // Using hex code for gold color
+      newChallengeButton.style.color = 'grey';
+      newChallengeButton.disabled = true; // Disable the button
+    }
 
-//         // Clear the feedback message for the new problem
-//         let feedbackMsg = document.getElementById('feedback');
-//         if (feedbackMsg) {
-//             feedbackMsg.textContent = '';
-//         }
-//         if (problemContainer) {
-//             problemContainer.style.border = 'none'; // Clear the border
-//         }
-//     }
-// });
+    // Clear the feedback message for the new problem
+    let feedbackMsg = document.getElementById('feedback');
+    if (feedbackMsg) {
+        feedbackMsg.textContent = '';
+    }
+    if (currentProblemContainer) {
+        currentProblemContainer.style.border = 'none'; // Clear the border
+    }
+  });
 
-    newChallengeButton.addEventListener('click', () => {
-      if (currentCategory && remainingProblems[currentCategory].length > 0) {
-          let randomProblemIndex = Math.floor(Math.random() * remainingProblems[currentCategory].length);
-          let selectedProblem = remainingProblems[currentCategory][randomProblemIndex];
-          remainingProblems[currentCategory].splice(randomProblemIndex, 1);
+  // Event listeners for category buttons to enable the newChallengeButton again
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Resetting current category and problems logic...
 
-          // Capture the problemContainer returned by renderVexFlowNotation
-          currentProblemContainer = renderVexFlowNotation(selectedProblem);
-
-          if (remainingProblems[currentCategory].length === 0) {
-              // Your existing code for handling the empty problem set
-          }
-      }
-
-      // Clear the feedback message for the new problem
-      let feedbackMsg = document.getElementById('feedback');
-      if (feedbackMsg) {
-          feedbackMsg.textContent = '';
-      }
-      if (currentProblemContainer) {
-          currentProblemContainer.style.border = 'none'; // Clear the border
-      }
+      // Enable the newChallengeButton and reset its style
+      newChallengeButton.disabled = false;
+      newChallengeButton.style.backgroundColor = ''; // Reset to default or desired color
+      newChallengeButton.style.color = ''; // Reset to default or desired text color
     });
-
 });
 
 // Mapping of music problems to their valid answers
@@ -259,7 +248,6 @@ let correctAnswersMapping = {
   // Continue for each problem...
 };
 
-
 //############################################################################################################################################
 // FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION
 //############################################################################################################################################
@@ -295,7 +283,7 @@ function renderVexFlowNotation(selectedProblem) {
 
   const submitBtn = document.createElement('button');
   submitBtn.textContent = 'Submit';
-  submitBtn.onclick = function() { checkAnswer(input.value, problemContainer, selectedProblem); };
+  submitBtn.onclick = function() { checkAnswer(input.value, selectedProblem); };
   problemContainer.appendChild(submitBtn);
 
   // Append the container to the output div
@@ -309,67 +297,52 @@ function renderVexFlowNotation(selectedProblem) {
 // FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION
 //############################################################################################################################################
 
-// console.log(problemContainer); // Should show the DOM element if defined correctly
-
-function checkAnswer(userInput, problemContainer, selectedProblem) {
-  // Normalize user input (trim spaces, convert to lower case)
+function checkAnswer(userInput,  selectedProblem) {
+  // Normalize user input
   const normalizedInput = userInput.trim().toLowerCase();
-
-  // Debug: Log the selected problem and user input
-  console.log('Selected Problem:', selectedProblem, 'User Input:', normalizedInput);
 
   // Retrieve the array of valid answers for the selected problem
   const validAnswers = correctAnswersMapping[selectedProblem] || [];
 
-  // Debug: Log the valid answers for the selected problem
-  console.log('Valid Answers for', selectedProblem, ':', validAnswers);
-
   // Determine if the user's input is a valid answer
   const isCorrect = validAnswers.includes(normalizedInput);
 
-  // Update feedback message and styles based on whether the answer is correct
-  let feedbackMsg = document.getElementById('feedback'); // Ensure this element exists in your HTML
-  if (!feedbackMsg) {
-    console.error('Feedback element not found!');
-    return; // Exit the function if feedback element is not found
-  }
+  // Ensure the feedback message container exists and is correctly positioned
+  let feedbackMsg = ensureFeedbackMsgExists(currentProblemContainer);
 
-  console.log(feedbackMsg); // Check if this is null or a valid element
-  if (feedbackMsg) {
-      // Now safe to set textContent
-      feedbackMsg.textContent = 'Your message here';
-  } else {
-      console.error('Feedback element not found!');
-  }
-
+  // Update the feedback message based on whether the answer is correct
   if (isCorrect) {
     feedbackMsg.textContent = 'Nice! Correct!';
     feedbackMsg.style.color = 'green';
-    problemContainer.style.border = '2px solid green';
+    currentProblemContainer.style.border = '2px solid green';
   } else {
     feedbackMsg.textContent = 'Not Quite! Try again!';
     feedbackMsg.style.color = 'red';
-    problemContainer.style.border = '2px solid red';
-  }
-
-  // Ensure previous feedback is cleared when a new problem is selected or submit is clicked again
-  if (!isCorrect || isCorrect) {
-    const existingFeedback = problemContainer.querySelector('.feedback');
-    if (existingFeedback) {
-      problemContainer.removeChild(existingFeedback);
-    }
-    feedbackMsg.className = 'feedback';
-    problemContainer.appendChild(feedbackMsg);
+    currentProblemContainer.style.border = '2px solid red';
   }
 }
 
-  // Clear previous feedback and add new feedback
-  const existingFeedback = problemContainer.querySelector('.feedback');
-  if (existingFeedback) {
-    problemContainer.removeChild(existingFeedback);
+//############################################################################################################################################
+// FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION
+//############################################################################################################################################
+
+function ensureFeedbackMsgExists(currentProblemContainer) {
+  // Try to find an existing feedback message container inside the current problem container
+  let feedbackMsg = currentProblemContainer.querySelector('#feedback');
+
+  // If it doesn't exist, create it and append it to the current problem container
+  if (!feedbackMsg) {
+    feedbackMsg = document.createElement('div');
+    feedbackMsg.id = 'feedback';
+    currentProblemContainer.appendChild(feedbackMsg);
   }
-  feedbackMsg.className = 'feedback';
-  problemContainer.appendChild(feedbackMsg);
+
+  return feedbackMsg;
+}
+
+//############################################################################################################################################
+// FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION FUNCTION
+//############################################################################################################################################
 
 function resetProblemsAndCreateTryAgainButton() {
   remainingProblems[currentCategory] = [...musicProblems[currentCategory]];
@@ -395,8 +368,8 @@ function markProblemAsSolved() {
   // Implement functionality to add a green checkmark
   // This function should be called when a problem is answered correctly
 }
+}); // This closes the document.addEventListener('DOMContentLoaded', () => { ... });
 //############################################################################################################################################
 // DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING DEBUGGING 
 //############################################################################################################################################
-// Debugging Test:
 // renderVexFlowNotation('C5/q, B4, A4, G4')
