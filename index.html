@@ -1,313 +1,49 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>What is Music?</title> <!-- Title of the document -->
-        <style>
-            /* Add some basic styling to the subtitle */
-            .subtitle {
-                font-size: 20px; /* font size */
-                color: #666; /* font color */
-                font-style: italic; /* font style */
-                text-align: center; /* text placement */
-            }
-            /* Basic Reset */
-            body, h1, p, button {
-                margin: 0;
-                padding: 0;
-                font-family: Arial, sans-serif;
-            }
+<!--
+Music Theory Application [html file] */
+-->
 
-            body {
-                background-color: #f0f0f0; /* Light grey background */
-                color: #333; /* Dark grey text */
-                line-height: 1.6;
-                padding: 20px;
-            }
+<!DOCTYPE html> <!-- Declares the document type and version of HTML -->
 
-            .container {
-                max-width: 800px;
-                margin: auto;
-                background: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
+    <html lang="en"> <!-- Opens the HTML document and specifies the language as English -->
 
-            h1 {
-                text-align: center;
-                color: #444;
-            }
+        <head> <!-- Opens the head section which contains meta-information about the document -->
+            <meta charset="UTF-8"> <!-- Specifies the character encoding for the HTML document -->
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Sets the viewport to ensure proper scaling and rendering on all devices -->    
+            <title>Music Theory Application</title> <!-- Document title -->
+            <link rel="stylesheet" href="styles.css"> <!-- External CSS stylesheet -->
+        </head> <!-- Closes the head section of the HTML document -->
 
-            p {
-                margin-bottom: 20px;
-            }
+        <body> <!-- Opens the body section,, which contains all the content displayed to the user. -->
+            <!-- Main content container -->
+            <div class="container"> <!-- Opens a div element with a class of "container", often used as a wrapper to center content or apply consistent styling -->
+                <h1>Music Theory Reference Toolkit</h1> <!-- Main heading -->
+                <p class="subtitle">Explore the building blocks of music</p> <!-- Subtitle -->
+                <hr> <!-- Thematic break - horizontal line -->
 
-            button {
-                display: block;
-                background-color: #007bff; /* Blue */
-                color: #ffffff; /* White */
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 16px;
-                margin-bottom: 20px;
-            }
+                <!-- Music theory question containers -->
+                <div id="timeSignatureQuestion" class="question-container"></div> <!-- Container for displaying a time signature question. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <div id="keySignatureQuestion" class="question-container"></div> <!-- Container for displaying a key signature question. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <div id="rhythmQuestion" class="question-container"></div> <!-- Container for displaying rhythm questions. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <div id="clefQuestion" class="question-container"></div> <!-- Container for displaying clef questions. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <div id="articulationQuestion" class="question-container"></div> <!-- Container for displaying articulation questions. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <div id="accidentalQuestion" class="question-container"></div> <!-- Container for displaying accidental questions. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <div id="singleNoteQuestion" class="question-container"></div> <!-- Container for displaying single note questions. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <div id="chordQuestion" class="question-container"></div> <!-- Container for displaying chordal questions. It uses 'id' for unique identification and 'class' for applying CSS styles. -->
+                <!-- Add more question containers as needed -->
 
-            button:hover {
-                background-color: #0056b3; /* Darker blue */
-            }
-        </style>
-    </head>
+                <!-- Container for rendered sheet music -->
+                <div id="sheetMusicContainer" class="sheet-music-container"></div> <!-- Dedicated container for rendering sheet music. The 'id' is used for unique reference in JavaScript, and 'class' for specific styling. -->
 
-    <body>
-        <div class="container">
-            <h1>What is Music?</h1> <!-- Main title of the document content -->
-            <p class="subtitle">Reference Toolkit</p> <!-- Subtitle styled with CSS -->
-            <hr> <!-- Horizontal line below the title -->
-            <!-- Questions and content below the line -->
-            <div id="timeSignatureQuestion" class="question-container"></div>
-            <div id="clefQuestion" class="question-container"></div>
-            <div id="keySignatureQuestion" class="question-container"></div>
-            <div id="rhythmQuestion" class="question-container"></div>
-            <div id="articulationQuestion" class="question-container"></div>
-            <div id="accidentalQuestion" class="question-container"></div>
-            <div id="singleNoteQuestion" class="question-container"></div>
-            <div id="chordQuestion" class="question-container"></div>
-            <!-- More questions here -->
-        </div>
+                <!-- Download buttons -->
+                <button id="downloadPdfBtn">Download as PDF</button> <!-- A button that triggers the download of the sheet music as a PDF file. The 'id' attribute is used to attach an event listener in JavaScript. -->
+                <button id="downloadAsPngBtn">Download as PNG</button> <!-- A button for downloading the sheet music as a PNG image. The 'id' is used in JavaScript to define the functionality of converting the canvas to a PNG file. -->
+            </div> <!-- Closes the div element -->
 
-        <script>
-    /*
-    * Generates a new time signature question for the music theory quiz.
-    * This function dynamically creates a music notation stave with a 3/4 time signature
-    * and appends it to the designated question container. It also provides a button
-    * to generate a new time signature question, allowing for continuous user interaction.
-    * The function utilizes the VexFlow library for music notation rendering.
-    */
-            function generateTimeSignatureQuestion() {
-                const questionDiv = document.getElementById("timeSignatureQuestion");
-                questionDiv.innerHTML = ''; // Clear previous content
-            
-                // Define an array of possible time signatures
-                const timeSignatures = ["4/4", "3/4", "2/4", "6/8", "5/4", "7/8"];
-            
-                // Randomly select a time signature from the array
-                const randomIndex = Math.floor(Math.random() * timeSignatures.length);
-                const selectedTimeSignature = timeSignatures[randomIndex];
-            
-                const renderer = new VF.Renderer(questionDiv, VF.Renderer.Backends.SVG);
-                renderer.resize(500, 150);
-                const context = renderer.getContext();
-                const stave = new VF.Stave(10, 40, 400);
-            
-                // Use the randomly selected time signature
-                stave.addTimeSignature(selectedTimeSignature);
-            
-                stave.setContext(context).draw();
-            
-                const btn = document.createElement('button');
-                btn.textContent = 'New Time Signature';
-                btn.onclick = generateTimeSignatureQuestion; // Keep this to regenerate on click
-                questionDiv.appendChild(btn);
-            
-                questionDiv.insertAdjacentHTML('beforeend', '<p>What is the time signature shown above?</p>');
-            }
-            
+            <!-- Script dependencies -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.3/html2canvas.min.js"></script> <!-- html2canvas for canvas conversion -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script> <!-- jsPDF for PDF generation -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vexflow/3.0.9/vexflow-min.js"></script> <!-- VexFlow for music notation rendering -->
+            <script src="app_musicEducation.js"></script> <!-- Main JavaScript file for the application -->
+        </body> <!-- Closes the body tag of the HTML document, which contains all the content displayed to the user. -->
 
-    // Initializes and displays a new key signature question in the 'keySignatureQuestion' div. 
-    // It renders a musical staff with a key signature using VexFlow and adds a button to generate a new question.
-            function generateKeySignatureQuestion() {
-                const questionDiv = document.getElementById("keySignatureQuestion");
-                questionDiv.innerHTML = ''; // Clear previous content
-            
-                // Define an array of possible key signatures
-                const keySignatures = [
-                    "C", "G", "D", "A", "E", "B", "F#", "C#",
-                    "F", "Bb", "Eb", "Ab", "Db", "Gb", "Cb"
-                ];
-            
-                // Randomly select a key signature from the array
-                const randomIndex = Math.floor(Math.random() * keySignatures.length);
-                const selectedKeySignature = keySignatures[randomIndex];
-            
-                const renderer = new VF.Renderer(questionDiv, VF.Renderer.Backends.SVG);
-                renderer.resize(500, 150);
-                const context = renderer.getContext();
-                const stave = new VF.Stave(10, 40, 400);
-            
-                // Use the randomly selected key signature
-                stave.addClef("treble").addKeySignature(selectedKeySignature).setContext(context).draw();
-            
-                const btn = document.createElement('button');
-                btn.textContent = 'New Key Signature';
-                btn.onclick = generateKeySignatureQuestion; // Keep this to regenerate on click
-                questionDiv.appendChild(btn);
-            
-                questionDiv.insertAdjacentHTML('beforeend', '<p>What key signature is displayed above?</p>');
-            }        
-
-    // Generates and displays a rhythm question in the 'rhythmQuestion' div. 
-    // It utilizes VexFlow to draw a percussion clef with a sequence of notes, and beams for 8th notes, 
-    // challenging the user to clap the displayed rhythm. Includes a button to refresh with a new rhythm.
-            function generateRhythmQuestion() {
-                const questionDiv = document.getElementById("rhythmQuestion");
-                questionDiv.innerHTML = ''; // Clear previous content
-            
-                const renderer = new VF.Renderer(questionDiv, VF.Renderer.Backends.SVG);
-                renderer.resize(500, 150);
-                const context = renderer.getContext();
-                const stave = new VF.Stave(10, 40, 400);
-                stave.addClef("percussion").setContext(context).draw();
-            
-                // Define an array of rhythm patterns
-                const rhythmPatterns = [
-                    ["q", "q", "q", "q"], // Four quarter notes
-                    ["8", "8", "q", "q", "q"], // Two eighth notes followed by three quarter notes
-                    ["q", "8", "8", "q", "q"], // Quarter note, two eighth notes, two quarter notes
-                    ["q", "q", "8", "8", "q"], // Two quarter notes, two eighth notes, quarter note
-                    ["16", "16", "16", "16", "q", "q"], // Four sixteenth notes, two quarter notes
-                    // Add more rhythm patterns as needed
-                ];
-            
-                // Randomly select a rhythm pattern
-                const selectedPattern = rhythmPatterns[Math.floor(Math.random() * rhythmPatterns.length)];
-            
-                // Generate notes based on the selected rhythm pattern
-                const notes = selectedPattern.map(duration => new VF.StaveNote({
-                    keys: ["b/4"], // This can be changed if different pitches are desired
-                    duration: duration
-                }));
-            
-                // Add beams for notes shorter than a quarter note (eighth, sixteenth, etc.)
-                const beams = VF.Beam.generateBeams(notes.filter(note => note.duration !== "q" && note.duration !== "h" && note.duration !== "w"));
-                VF.Formatter.FormatAndDraw(context, stave, notes);
-                beams.forEach(beam => beam.setContext(context).draw());
-            
-                const btn = document.createElement('button');
-                btn.textContent = 'New Rhythm';
-                btn.onclick = generateRhythmQuestion; // Assign the function to generate a new question
-                questionDiv.appendChild(btn);
-                questionDiv.insertAdjacentHTML('beforeend', '<p>Clap the rhythm shown above.</p>');
-            }
-            
-
-    // (This function's body was not provided in your code. 
-    // Below is a suggested comment based on typical articulation question functionality.)
-    // Creates a question related to musical articulations by rendering a note with a specific articulation 
-    // (e.g., staccato, legato) and prompts the user to identify it. Includes a button for generating a new articulation question.
-            function generateArticulationQuestion() {
-                // Your logic for generating a new articulation question
-            }
-
-    // (This function's body was not provided in your code. 
-    // Below is a suggested comment based on common accidental question functionality.)
-    // Displays a question asking the user to identify the accidental (flat, sharp, or natural) 
-    // of a displayed note. A new question can be generated with an accompanying button.
-            function generateAccidentalQuestion() {
-                // Your logic for generating a new accidental question
-            }
-
-    // (This function's body was not provided in your code. 
-    // Below is a suggested comment based on typical clef identification functionality.)
-    // Presents a clef identification question by rendering a staff with a random clef. 
-    // The user is asked to identify the clef. A 'New Clef' button allows the user to generate a new question.
-            function generateClefQuestion() {
-                // Your logic for generating a new clef question
-            }
-
-    // Creates and displays a single note identification question in the 'singleNoteQuestion' div. 
-    // A random musical note is rendered on a staff using VexFlow, and the user is prompted to identify it. 
-    // Includes a button to generate a new note question.
-            function generateSingleNoteQuestion() {
-                const questionDiv = document.getElementById("singleNoteQuestion");
-                questionDiv.innerHTML = ''; // Clear previous content
-
-                const renderer = new VF.Renderer(questionDiv, VF.Renderer.Backends.SVG);
-                renderer.resize(250, 200); // Adjust size as needed
-                const context = renderer.getContext();
-                const stave = new VF.Stave(10, 40, 200);
-                stave.addClef("treble").setContext(context).draw();
-
-                // Generate a random note
-                const notes = [
-                    new VF.StaveNote({ keys: ["c/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["d/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["e/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["c#/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["d#/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["e#/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["cb/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["db/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["eb/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["f/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["g/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["f#/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["g#/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["fb/4"], duration: "q" }),
-                    new VF.StaveNote({ keys: ["gb/4"], duration: "q" }),
-                    // Add more notes as needed
-                ];
-                const randomIndex = Math.floor(Math.random() * notes.length);
-                const note = notes[randomIndex];
-
-                // Draw the note
-                VF.Formatter.FormatAndDraw(context, stave, [note]);
-
-                // Button to generate a new question
-                const btn = document.createElement('button');
-                btn.textContent = 'New Note';
-                btn.onclick = generateSingleNoteQuestion;
-                questionDiv.appendChild(btn);
-
-                // Instruction for the user
-                questionDiv.insertAdjacentHTML('beforeend', '<p>Identify the note shown above.</p>');
-            }
-
-    // (This function's body was not provided in your code. 
-    // Below is a suggested comment based on typical chord identification question functionality.)
-    // Generates a chord identification question by rendering a chord on a musical staff. 
-    // The user is asked to identify the chord type or the notes within it. Includes a button for new chord questions.
-            function generateChordQuestion() {
-                // Your logic for generating a new chord question
-            }
-
-    // Calls functions to generate various music theory questions covering time signatures, clefs, key signatures, 
-    // rhythms, articulations, accidentals, single notes, and chords. This function initializes all question types 
-    // upon loading the music theory quiz.
-            function initializeMusicTheoryQuestions() {
-                const VF = Vex.Flow;
-
-                generateTimeSignatureQuestion();
-                generateClefQuestion(); // Make sure this function is defined
-                generateKeySignatureQuestion();
-                generateRhythmQuestion();
-                generateArticulationQuestion(); // Make sure this function is defined
-                generateAccidentalQuestion(); // Make sure this function is defined
-                generateSingleNoteQuestion();
-                generateChordQuestion(); // Make sure this function is defined
-                // Initialize other questions...
-            }
-    /*
-    * Dynamically loads the VexFlow library script and initializes music theory questions once the script is fully loaded.
-    * This function serves as the entry point to the application, ensuring that all necessary resources are loaded
-    * before any music theory questions are generated and displayed to the user.
-    */
-            function loadVexFlowScript() {
-                const script = document.createElement('script');
-                script.src = "https://cdnjs.cloudflare.com/ajax/libs/vexflow/3.0.9/vexflow-min.js";
-                script.onload = function() {
-                    VF = Vex.Flow; // Define VF after the script is loaded
-                    initializeMusicTheoryQuestions(); // Now that VF is defined, initialize the music theory questions
-                };
-                document.head.appendChild(script);
-            }
-
-    // Call this function to start loading the script and initialize everything afterwards
-            loadVexFlowScript();
-
-        </script>
-    </body>
-</html>
+    </html> <!-- Closes the HTML document. This tag signifies the end of the document in the markup language. -->
