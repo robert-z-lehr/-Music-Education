@@ -1,28 +1,24 @@
 # Access Music Exercises [Here](https://robert-z-lehr.github.io/Music-Education/)
 ---
-### Source for Code:
+
+### Purpose
+To provide a comprehensive set of music education exericises and theory
+---
+
+### Source:
 - [VexFlow](https://www.vexflow.com/)
 - [EasyScore](https://github.com/0xfe/vexflow/wiki/Using-EasyScore)
 - [VexWarp](https://github.com/0xfe/vexwarp)
+---
 
-### Purpose of Code Files:
+### MIT LICENSE
 
-1. **HTML Structure**: This includes the main title, subtitle, buttons for each category, and a container (`<div id="exercisesContainer">`) where the exercises will be displayed.
+Copyright (c) Mohit Muthanna Cheppudira 2010
+0xFE mohit@muthanna.com https://www.vexflow.com
 
-2. **CSS Styling**: This adds basic styling to center the text, space out the buttons, and style the exercise questions and submit buttons.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-3. **JavaScript Logic**:
-   - The `DOMContentLoaded` event ensures your code runs after the entire DOM is fully loaded.
-   - Event listeners are added to the buttons. For now, only the "Notes" button (`notesButton`) has functionality.
-   - When the "Notes" button is clicked, it clears the existing content in `exercisesContainer` and adds three note exercises (C, E, G) using the `addNoteExercise` function.
-   - `addNoteExercise` creates a new div for each question, with a submit button. Clicking the submit button changes its color to green.
-   - `renderNote` uses VexFlow to render the specified note inside the created div.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-### Integration:
-
-- Make sure the VexFlow library is correctly linked in your HTML.
-- Include your CSS in a `<style>` tag in the `<head>` section of your HTML or link to an external CSS file.
-- Your JavaScript can be included at the end of the `<body>` section or in an external file.
-- The VexFlow exercise JavaScript (`VexFlow_Exercise_v1.0.js`) should contain the functions `addNoteExercise` and `renderNote`.
-
-This is a basic implementation and can be expanded and refined based on your specific requirements and styling preferences.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+---
